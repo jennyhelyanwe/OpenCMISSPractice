@@ -4,6 +4,7 @@
 
 import sys
 import os
+import numpy as np
 
 sys.path.append(os.sep.join((os.environ['OPENCMISS_ROOT'], 'cm', 'bindings', 'python')))
 # Initialise OpenCMISS
@@ -22,7 +23,8 @@ numOfXi = 3
 numNodes = 8
 
 option = [1] # Trilinear
-microstructure = 1 # Homogeneous fibre angles. 
+microstructure = 1 # Homogeneous fibre angles.
+cellMLOption = [False]
 
 ### Set arbitrary user numbers which are unique to each object.
 (coordinateSystemUserNumber,
@@ -38,7 +40,8 @@ microstructure = 1 # Homogeneous fibre angles.
     problemUserNumber,
     fibreFieldUserNumber,
     materialFieldUserNumber,
-    deformedFieldUserNumber) = range(1, 15)
+    deformedFieldUserNumber,
+    strainFieldUserNumber) = range(1, 16)
 
 # Set up region and CS
 [numOfCompNodes, compNodeNum, CS, region] = BasicSetUp(regionUserNumber, coordinateSystemUserNumber)
@@ -83,14 +86,9 @@ fibreField = FibreFieldSetUp(fibreFieldUserNumber, region, decomposition, geomet
                              8, [0, 0, 0])
 
 # Set up material field.
-params = [2.0, 6.0]  # kPa
-materialField = MaterialFieldSetUp(materialFieldUserNumber, region, decomposition, geometricField, 2, option, params)
-
-# Set up dependent field.
-dependentField = DependentFieldSetUp(dependentFieldUserNumber, region, decomposition, geometricField, option)
-
-# Initialise dependent field. 
-DependentFieldInitialise(dependentField, geometricField, -8.0)
+params = [2.0, 6.0]
+materialField = MaterialFieldSetUp(materialFieldUserNumber, region, decomposition, geometricField, params, option,
+                                   cellMLOption)
 
 # Set up equations set
 equationsSetField = CMISS.Field()  # Equations are also in a field
@@ -99,18 +97,30 @@ equationsSet.CreateStart(equationsSetUserNumber, region, fibreField, CMISS.Equat
                          CMISS.EquationsSetTypes.FINITE_ELASTICITY, CMISS.EquationsSetSubtypes.MOONEY_RIVLIN,
                          equationsSetFieldUserNumber, equationsSetField)
 equationsSet.CreateFinish()
+print "----> Set up equations set <---\n"
 
-equationsSet = EquationsSetUp(equationsSet, materialFieldUserNumber, materialField, dependentFieldUserNumber,
-                              dependentField)
+# Set up material field in equations set.
+equationsSet.MaterialsCreateStart(materialFieldUserNumber, materialField)
+equationsSet.MaterialsCreateFinish()
+
+# Set up dependent field.
+[dependentField, equationsSet] = DependentFieldSetUp(dependentFieldUserNumber, equationsSet, option, cellMLOption)
+
+# Initialise dependent field.
+DependentFieldInitialise(dependentField, geometricField, -8.0)
+
+
+# Set up strain field
+strainField = StrainFieldSetUp(strainFieldUserNumber, region, decomposition, geometricField, equationsSet)
 
 # Set up problem
-[problem, solverEquations] = ProblemAndSolverSetUp(problemUserNumber, equationsSet, 1e-5)
+[problem, solverEquations] = EquationsProblemSolverSetUp(problemUserNumber, equationsSet, cellMLOption)
 
 # Initialise BC
 appliedFace = [2, 4, 6, 8]
 faceNormal = 1  # Face normal vector aligns with x direction.
 appliedDirection = 1  # X direction.
-increm = 1.1
+increm = 0.1
 optionBC = 1  # Compression/extension.
 
 fixXFace = [1, 3, 5, 7]
@@ -122,6 +132,31 @@ BCCubeSingleFace(solverEquations, dependentField, appliedFace, faceNormal, appli
 
 # Solve Problem
 problem.Solve()
+
+elementNumbers = [1]
+xiPositions = [[0.25, 0.25, 0.25],
+    [0.25, 0.75, 0.25],
+    [0.25, 0.25, 0.75],
+    [0.25, 0.75, 0.75],
+    [0.75, 0.25, 0.25],
+    [0.75, 0.75, 0.25],
+    [0.75, 0.25, 0.75],
+    [0.75, 0.75, 0.75]]
+xiPositions = np.array(xiPositions)
+ExportStressStrain(elementNumbers,xiPositions, equationsSet, 'problem1_strain.exdata', 'problem1_stress.exdata',
+                   'Strain', 'Stress', cellMLOption)
+
+
+xiPosition = [0.5, 0.5, 0.5]
+elementNumber = 1
+[calculatedStrain, PK2_tensor] = equationsSet.StrainInterpolateXi(elementNumber, xiPosition)
+
+calculatedStrainTensor = matrixFromSymmetricComponents(calculatedStrain)
+calculated2PKTensor = matrixFromSymmetricComponents(PK2_tensor)
+print("Calculated Cauchy strain at gauss point 0.5, 0.5, 0.5:")
+print(calculatedStrainTensor)
+print("Calculated 2nd Piola-Kirchhoff stress gauss point 0.5, 0.5, 0.5:")
+print(calculated2PKTensor)
 
 # Export results
 filename = "problem1"

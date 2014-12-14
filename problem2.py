@@ -93,17 +93,7 @@ GeometricFieldExport(region, "problem2_undeformed")
 fibreField = FibreFieldSetUp(fibreFieldUserNumber, region, decomposition, geometricField, option, microstructure, 8,
                              [0, 0, 0])
 
-# Set up material field.
-params = [2.0, 6.0]
-materialField = MaterialFieldSetUp(materialFieldUserNumber, region, decomposition, geometricField, 2, option, params)
-
-# Set up dependent field.
-dependentField = DependentFieldSetUp(dependentFieldUserNumber, region, decomposition, geometricField, option)
-
-# Initialise dependent field. 
-DependentFieldInitialise(dependentField, geometricField, -8.0)
-
-# Set up equations set. 
+# Set up equations set.
 equationsSetField = CMISS.Field()
 equationsSet = CMISS.EquationsSet()
 equationsSet.CreateStart(equationsSetUserNumber, region, geometricField, CMISS.EquationsSetClasses.ELASTICITY,
@@ -111,11 +101,20 @@ equationsSet.CreateStart(equationsSetUserNumber, region, geometricField, CMISS.E
                          equationsSetFieldUserNumber, equationsSetField)
 equationsSet.CreateFinish()
 
-equationsSet = EquationsSetUp(equationsSet, materialFieldUserNumber, materialField, dependentFieldUserNumber,
-                              dependentField)
+
+# Set up material field.
+params = [2.0, 6.0]
+numParams = 2
+[materialField, equationsSet] = MaterialFieldSetUpAuto(materialFieldUserNumber, equationsSet, params)
+
+# Set up dependent field.
+[dependentField, equationsSet] = DependentFieldSetUp(dependentFieldUserNumber, equationsSet, option)
+
+# Initialise dependent field. 
+DependentFieldInitialise(dependentField, geometricField, -8.0)
 
 # Set up problem
-[problem, solverEquations] = ProblemAndSolverSetUp(problemUserNumber, equationsSet, 1e-5)
+[problem, solverEquations] = EquationsProblemSolverSetUp(problemUserNumber, equationsSet, 1e-10)
 
 # Initialise BC
 appliedFace = [3, 4, 7, 8]
