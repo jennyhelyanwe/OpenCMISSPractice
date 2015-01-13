@@ -1,5 +1,6 @@
 .. _problem1:
 
+======================================================
 Trilinear Uniaxial Extension - Isotropic Mooney-Rivlin
 ======================================================
 
@@ -9,10 +10,6 @@ problems are set up.
 
 First let's try importing a code snippet
 
-.. literalinclude:: lib.py
-   :language: python
-   :linenos:
-   :start-after: !DOC-START environment set-up declarations
-   :end-before: !DOC-END environment set-up declarations
+
 
  
