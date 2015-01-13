@@ -18,7 +18,7 @@ import numpy
 def BasicSetUp(regionUserNumber, coordinateSystemUserNumber):
     # This snippet sets up the world region, 3D CS, parallel computing nodes, and
     # diagnostics. These are oft-repeated commands.
-
+    !DOC-START environment set-up declarations
     # Set up diagnostics/debug
     CMISS.DiagnosticsSetOn(CMISS.DiagnosticTypes.IN, [1, 2, 3, 4, 5], "Diagnostics",
                            ["DOMAIN_MAPPINGS_LOCAL_FROM_GLOBAL_CALCULATE"])
@@ -39,7 +39,7 @@ def BasicSetUp(regionUserNumber, coordinateSystemUserNumber):
     region.label = "Region"
     region.coordinateSystem = coordinateSystem
     region.CreateFinish()
-
+    !DOC-END environment set-up declarations
     # Output for diagnostics
     print "----> Set up coordinate system and world region <----\n"
 

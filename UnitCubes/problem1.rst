@@ -1,4 +1,4 @@
-.. _OpenCMISSPractice-UnitCubes:
+.. _problem1:
 
 Trilinear Uniaxial Extension - Isotropic Mooney-Rivlin
 ======================================================
