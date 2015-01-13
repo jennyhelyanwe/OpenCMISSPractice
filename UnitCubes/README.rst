@@ -1,3 +1,5 @@
+.. _OpenCMISSPractice-UnitCubes:
+
 Unit Cubes
 ==========
 

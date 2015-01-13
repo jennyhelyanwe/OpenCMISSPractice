@@ -9,7 +9,7 @@ of OpenCMISS.
 The examples have been grouped firstly in terms of the complexity of geometry, 
 and subsequently in terms of basis function types. 
 
-.. toctree: 
+.. toctree::
    :maxdepth: 2
    
    UnitCubes/README
