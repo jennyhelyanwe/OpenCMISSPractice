@@ -1,0 +1,40 @@
+ Group name: Stress
+ #Fields= 7
+ 1) element_xi, field, element_xi, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 2) yg1, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 3) yg2, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 4) yg3, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 5) yg4, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 6) yg5, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 7) yg6, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ Node:         1
+ E         1 3
+   7.77736321959
+   -1.2842449278e-14
+   1.4349293415e-13
+   6.42757290875
+   0.0
+   6.42757290875
+ Node:         2
+ E         1 3
+   7.77736321959
+   -1.2842449278e-14
+   1.4349293415e-13
+   6.42757290875
+   0.0
+   6.42757290875
+ Node:         3
+ E         1 3
+   7.77736321959
+   -1.2842449278e-14
+   1.4349293415e-13
+   6.42757290875
+   0.0
+   6.42757290875

@@ -1,0 +1,40 @@
+ Group name: Strain
+ #Fields= 7
+ 1) element_xi, field, element_xi, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 2) yg1, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 3) yg2, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 4) yg3, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 5) yg4, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 6) yg5, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ 7) yg6, field, real, #Components=1
+   1.  Value index= 1, #Derivatives=0
+ Node:         1
+ E         1 3
+   0.105
+   -1.99802467593e-15
+   2.23245906638e-14
+   -0.045454545456
+   5.12335004128e-14
+   -0.0454545454528
+ Node:         2
+ E         1 3
+   0.105
+   -1.99802467593e-15
+   2.23245906638e-14
+   -0.045454545456
+   5.12335004128e-14
+   -0.0454545454528
+ Node:         3
+ E         1 3
+   0.105
+   -1.99802467593e-15
+   2.23245906638e-14
+   -0.045454545456
+   5.12335004128e-14
+   -0.0454545454528
