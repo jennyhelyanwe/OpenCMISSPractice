@@ -13,3 +13,4 @@ and subsequently in terms of basis function types.
    :maxdepth: 2
    
    UnitCubes/README
+   Cylinder/README
