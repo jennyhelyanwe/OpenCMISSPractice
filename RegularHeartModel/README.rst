@@ -11,13 +11,6 @@ The following models have been built:
 .. toctree::
    :maxdepth: 2
 
-   LVInflation
+   LVInflation/README.rst
 
-We can also use CellML linking to define the constitutive models in these unit cube 
-problems. 
-
-.. toctree::
-   :maxdepth: 2
-  
-   CellMLConstitutive/README.rst
 
