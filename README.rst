@@ -17,6 +17,7 @@ geometry.
    UnitCubes/README
    Cylinder/README
    RegularHeartModel/README
+   LibraryFiles/README
 
 
 Indices and tables
