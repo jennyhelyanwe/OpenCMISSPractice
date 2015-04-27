@@ -11,6 +11,6 @@ The following models have been built:
 .. toctree::
    :maxdepth: 2
 
-   LVInflation/README.rst
+   LVInflation/README
 
 
